@@ -1,0 +1,28 @@
+<div class="catalog-container">
+    <header class="catalog-header">
+        <h1>Discover Premium Products</h1>
+        <p class="text-muted">Top-rated items validated by real verified reviewers.</p>
+    </header>
+
+    <div *ngIf="loading" class="loader">Loading products...</div>
+
+    <div class="product-grid" *ngIf="!loading">
+        <div class="product-card card" *ngFor="let product of products" [routerLink]="['/product', product.id]">
+            <div class="product-img-placeholder">
+                <span>Image Not Found</span>
+            </div>
+            <div class="product-info">
+                <h3>{{ product.name }}</h3>
+                <p class="price">${{ product.price }}</p>
+
+                <div class="rating-box">
+                    <div class="stars">
+                        <span class="star filled" *ngFor="let _ of getStars(product.averageRating)">★</span>
+                        <span class="star empty" *ngFor="let _ of getStars(5 - product.averageRating)">★</span>
+                    </div>
+                    <span class="total-reviews">({{ product.totalReviews }} reviews)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

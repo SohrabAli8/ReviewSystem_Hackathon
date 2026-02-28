@@ -1,0 +1,67 @@
+<div class="details-container" *ngIf="product; else loader">
+    <div class="product-banner card">
+        <div class="info-block">
+            <h1>{{ product.name }}</h1>
+            <p class="description">{{ product.description }}</p>
+            <div class="meta">
+                <span class="price">${{ product.price }}</span>
+                <div class="rating-box">
+                    <span class="star filled" *ngFor="let _ of getStars(product.averageRating)">★</span>
+                    <span class="star empty" *ngFor="let _ of getStars(5 - product.averageRating)">★</span>
+                    <span class="total-reviews">({{ product.totalReviews }} verified ratings)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="reviews-section">
+        <h2>Customer Reviews</h2>
+
+        <div class="reviews-list" *ngIf="product.reviews.length > 0; else noReviews">
+            <div class="review-item card" *ngFor="let r of product.reviews">
+                <div class="review-header">
+                    <strong>{{ r.userName }}</strong>
+                    <div class="stars mini">
+                        <span class="star filled" *ngFor="let _ of getStars(r.rating)">★</span>
+                        <span class="star empty" *ngFor="let _ of getStars(5 - r.rating)">★</span>
+                    </div>
+                </div>
+                <p class="review-comment">{{ r.comment }}</p>
+            </div>
+        </div>
+
+        <ng-template #noReviews>
+            <div class="no-reviews card">No validated reviews yet. Be the first!</div>
+        </ng-template>
+
+        <div class="write-review card" *ngIf="authService.isLoggedIn(); else loginPrompt">
+            <h3>Write a Review</h3>
+
+            <div class="interactive-stars">
+                <span *ngFor="let i of [1,2,3,4,5]" class="star interactive" [class.filled]="i <= newRating"
+                    (click)="setRating(i)">★</span>
+                <span class="rating-text">{{ newRating }} / 5</span>
+            </div>
+
+            <textarea [(ngModel)]="newComment" placeholder="What did you like or dislike about this product?"
+                rows="4"></textarea>
+
+            <button class="btn-primary mt-3" [disabled]="submitting" (click)="submitReview()">
+                {{ submitting ? 'Submitting...' : 'Submit Review' }}
+            </button>
+
+            <p class="status-message" *ngIf="submitMessage">{{ submitMessage }}</p>
+        </div>
+
+        <ng-template #loginPrompt>
+            <div class="login-prompt card">
+                <p>You must be logged in to leave a review.</p>
+                <a routerLink="/login" class="btn-primary">Login Now</a>
+            </div>
+        </ng-template>
+    </div>
+</div>
+
+<ng-template #loader>
+    <div class="loader">Loading details...</div>
+</ng-template>

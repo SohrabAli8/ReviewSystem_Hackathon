@@ -1,0 +1,36 @@
+<div class="admin-container">
+    <header class="admin-header">
+        <h1>Administrator Panel</h1>
+        <p class="text-muted">Moderate pending reviews before they go live.</p>
+    </header>
+
+    <div *ngIf="loading" class="loader">Loading pending reviews...</div>
+
+    <div *ngIf="!loading && pendingReviews.length === 0" class="card no-data">
+        All caught up! There are no pending reviews at the moment.
+    </div>
+
+    <div class="pending-list" *ngIf="!loading && pendingReviews.length > 0">
+        <div class="pending-card card" *ngFor="let pr of pendingReviews">
+            <div class="card-header">
+                <div class="reviewer-info">
+                    <h3>{{ pr.userName }}</h3>
+                    <span class="product-badge">For: {{ pr.productName }}</span>
+                </div>
+                <div class="stars">
+                    <span class="star filled" *ngFor="let _ of getStars(pr.rating)">★</span>
+                    <span class="star empty" *ngFor="let _ of getStars(5 - pr.rating)">★</span>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <p class="comment-text">"{{ pr.comment }}"</p>
+            </div>
+
+            <div class="card-actions">
+                <button class="btn-success" (click)="moderate(pr.reviewId, 'Approved')">Approve Review</button>
+                <button class="btn-danger" (click)="moderate(pr.reviewId, 'Rejected')">Reject</button>
+            </div>
+        </div>
+    </div>
+</div>
