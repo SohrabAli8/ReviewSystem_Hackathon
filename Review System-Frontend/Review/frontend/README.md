@@ -1,27 +1,115 @@
-# Frontend
+# 🌐 Frontend – Angular Standalone Application
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.17.
+## 🧠 Architecture Overview
 
-## Development server
+The frontend is built using Angular Standalone Components.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+No NgModule-based architecture.
+Uses modern Angular routing & configuration.
 
-## Code scaffolding
+---
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+# 📂 Folder Structure
 
-## Build
+components/
+Contains UI components:
+- Login
+- Register
+- Products
+- Reviews
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+services/
+Handles API calls:
+- AuthService
+- ProductService
+- ReviewService
 
-## Running unit tests
+guards/
+AuthGuard protects routes.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+interceptors/
+JWT Interceptor attaches token automatically.
 
-## Running end-to-end tests
+app.routes.ts
+Application routing configuration.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+app.config.ts
+Application bootstrap configuration.
 
-## Further help
+---
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+# 🔐 Authentication Flow
+
+1. User submits login form
+2. AuthService sends credentials
+3. JWT received
+4. Stored in localStorage
+5. Interceptor attaches token
+6. Backend validates token
+
+---
+
+# 🔄 Route Protection Example
+
+{
+  path: 'products',
+  component: ProductsComponent,
+  canActivate: [AuthGuard]
+}
+
+---
+
+# 📡 API Communication
+
+Uses Angular HttpClient.
+
+All API URLs are stored in service files.
+
+Base API URL example:
+http://localhost:5001/api
+
+---
+
+# 🧪 State Handling
+
+- Token stored in localStorage
+- Simple auth state management
+- RxJS used for async handling
+
+---
+
+# 🎨 UI Features
+
+- Reactive Forms
+- Validation
+- Conditional Rendering
+- Error Message Handling
+
+---
+
+# ⚙️ Run Frontend
+
+1. npm install
+2. ng serve
+
+Runs at:
+http://localhost:4200
+
+---
+
+# 🚀 Production Build
+
+ng build --configuration production
+
+Deploy dist/ folder.
+
+---
+
+# 🔮 Future Improvements
+
+- Angular Signals
+- NgRx state management
+- Lazy Loading
+- UI Framework integration
+- Dark Mode
+- Unit Testing (Jasmine/Karma)
